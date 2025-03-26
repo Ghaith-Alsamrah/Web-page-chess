@@ -1,21 +1,27 @@
 class Bishop extends PieceInterface {
-    constructor(team,x,y){
-        super(team,x,y)
-        this.color = team === 1 ? "white" : "black"; 
+    constructor(team, x, y) {
+        super(team, x, y)
+        this.color = team === 1 ? "white" : "black";
         this.moves = []
     }
-
-    legalMoveMethod(){
+    
+    legalMoveMethod() {
         this.moves = []
-        for (let _x = 0; _x < 8; _x++){
-            if (_x != this.x && _y != this.y){
-                this.moves.push({x: _x, y: _y})  
-                this.moves.push({x: _x, y: 7 - _y})
-                this.moves.push({})
-                this.moves.push({})
-            }    
-        
-
+        const directions = [
+            {dx: 1, dy: 1},  
+            {dx: 1, dy: -1},  
+            {dx: -1, dy: 1},  
+            {dx: -1, dy: -1}  
+        ];
+        for (const dir of directions) {
+            for (let step = 1; step < 8; step++) {
+                const newX = this.x + dir.dx * step;
+                const newY = this.y + dir.dy * step;
+                
+                if (newX >= 0 && newX < 8 && newY >= 0 && newY < 8) {
+                    this.moves.push({x: newX, y: newY});
+                }
+            }
         }
     }
-}   
+}
